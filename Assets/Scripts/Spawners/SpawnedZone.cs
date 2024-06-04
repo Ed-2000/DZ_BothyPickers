@@ -52,14 +52,14 @@ public class SpawnedZone : MonoBehaviour
     private void OnDrawGizmos()
     {
         for (int i = 0; i < _freeSpawnPositions.Count; i++)
-            DrawQuadrilateral(_freeSpawnPositions[i], _spawnStep, _spawnStep);
+            DrawRectangle(_freeSpawnPositions[i], _spawnStep, _spawnStep);
 
         Vector3 center = new Vector3();
         center.x = (_minPosition.x + _maxPosition.x) / _variableForHalving;
         center.y = _yPosition;
         center.z = (_minPosition.y + _maxPosition.y) / _variableForHalving;
 
-        DrawQuadrilateral(center, _maxPosition.x - _minPosition.x, _maxPosition.y - _minPosition.y);
+        DrawRectangle(center, _maxPosition.x - _minPosition.x, _maxPosition.y - _minPosition.y);
     }
 
     public Vector3 GetPosition()
@@ -71,7 +71,7 @@ public class SpawnedZone : MonoBehaviour
         return randomPosition;
     }
 
-    private void DrawQuadrilateral(Vector3 center, float sideLengthX, float sideLengthZ)
+    private void DrawRectangle(Vector3 center, float sideLengthX, float sideLengthZ)
     {
         float halfSideLengthX = sideLengthX / 2;
         float halfSideLengthZ = sideLengthZ / 2;
