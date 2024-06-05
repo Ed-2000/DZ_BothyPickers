@@ -14,18 +14,7 @@ public class BaseScanner : MonoBehaviour
             DrawScanZone(_countOfCirclePoints, Color.blue);
     }
 
-    public Resource GetRandomResource()
-    {
-        Resource resource;
-        List<Resource> resources = Scan();
-        int index = Random.Range(0, resources.Count);
-        resource = resources[index];
-        resources.RemoveAt(index);
-
-        return resource;
-    }
-
-    private List<Resource> Scan()
+    public List<Resource> Scan()
     {
         List<Resource> resources = new List<Resource>();
 

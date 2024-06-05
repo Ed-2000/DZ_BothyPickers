@@ -10,11 +10,14 @@ public class Base : MonoBehaviour
 
     private BaseScanner _baseScanner;
     private BaseResourceStorage _resourceStorage;
+    private List<Resource> _reservedResources
+;
 
     private void Awake()
     {
         _baseScanner = GetComponent<BaseScanner>();
         _resourceStorage = GetComponent<BaseResourceStorage>();
+        _reservedResources = new List<Resource>();
 
         foreach (var bot in _freeBots)
             bot.Init(this);
@@ -51,13 +54,34 @@ public class Base : MonoBehaviour
 
     private void ResourceHandler(Resource resource)
     {
+        //_resourceStorage.AddResource(resource);
+
+        if (_reservedResources.Contains(resource))
+            _reservedResources.Remove(resource);
+
         _resourcesSpawnerController.Release(resource);
     }
 
     private void SendBotToPicking()
     {
-        _freeBots[0].SetTargetResource(_baseScanner.GetRandomResource());
+        Resource resource = GetRandomResource();
+        _reservedResources.Add(resource);
+
+        _freeBots[0].SetTargetResource(resource);
         _busyBots.Add(_freeBots[0]);
         _freeBots.RemoveAt(0);
+    }
+
+    private Resource GetRandomResource()
+    {
+        List<Resource> resources = _baseScanner.Scan();
+
+        for (int i = 0; i < _reservedResources.Count; i++)
+        {
+            if (resources.Contains(_reservedResources[i]))
+                resources.Remove(_reservedResources[i]);
+        }
+
+        return resources[Random.Range(0, resources.Count)];
     }
 }

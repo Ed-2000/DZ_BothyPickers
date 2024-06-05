@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class BaseResourceStorage : MonoBehaviour
 {
-    List<Resource> resources = new List<Resource>();
+    private List<Resource> _resources = new List<Resource>();
 
-
+    public void AddResource(Resource resource)
+    {
+        _resources.Add(resource);
+        print(_resources.Count);
+    }
 }

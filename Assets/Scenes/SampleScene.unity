@@ -269,8 +269,8 @@ MonoBehaviour:
   - {fileID: 2144624287}
   - {fileID: 1956834410}
   _spawnedZone: {fileID: 194176297}
-  _repeatRate: 5
-  _targetCapacity: 4
+  _repeatRate: 1
+  _targetCapacity: 20
 --- !u!1 &303093296
 GameObject:
   m_ObjectHideFlags: 0
