@@ -25,16 +25,19 @@ public class Bot : MonoBehaviour
 
     private void ResourceDiscoveredHandler(Resource resource)
     {
+        if (resource.TryGetComponent(out Rigidbody rigidbody))
+            rigidbody.isKinematic = true;
+
         Transform resourceTransform = resource.transform;
         resourceTransform.SetParent(this.transform);
         resourceTransform.position = _pointForTransportingResources.position;
 
-        _movement.SetTarget(_base.transform.position);
+        _movement.SetTarget(_base.transform);
     }
 
     public void SetTargetResource(Resource targetResource)
     {
-        _movement.SetTarget(targetResource.transform.position);
+        _movement.SetTarget(targetResource.transform);
         _resourcesPicker.SetTarget(targetResource);
     }
 

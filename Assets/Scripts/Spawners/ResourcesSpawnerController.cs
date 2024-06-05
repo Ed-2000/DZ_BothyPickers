@@ -24,7 +24,7 @@ public class ResourcesSpawnerController : MonoBehaviour
         StartCoroutine(Spawn());
     }
 
-    public void Release(Resource resource)
+    public void AcceptResource(Resource resource)
     {
         for (int i = 0; i < _resourcesSpawners.Length; i++)
         {

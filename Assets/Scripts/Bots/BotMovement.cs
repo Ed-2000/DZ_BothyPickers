@@ -4,7 +4,7 @@ using UnityEngine.AI;
 public class BotMovement : MonoBehaviour
 {
     private NavMeshAgent _navMeshAgent;
-    private Vector3 _target;
+    private Transform _target;
 
     private void Awake()
     {
@@ -16,13 +16,13 @@ public class BotMovement : MonoBehaviour
         Move();
     }
 
-    public void SetTarget(Vector3 target)
+    public void SetTarget(Transform target)
     {
         _target = target;
     }
 
     private void Move()
     {
-        _navMeshAgent.SetDestination(_target);
+        _navMeshAgent.SetDestination(_target.position);
     }
 }

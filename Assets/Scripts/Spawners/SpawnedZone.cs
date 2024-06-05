@@ -62,13 +62,6 @@ public class SpawnedZone : MonoBehaviour
         {
             for (int i = 0; i < _freeSpawnPositions.Count; i++)
                 DrawRectangle(_freeSpawnPositions[i], _spawnStep, _spawnStep);
-
-            Vector3 center = new Vector3();
-            center.x = (_minPosition.x + _maxPosition.x) / _halfCoefficient;
-            center.y = _yPosition;
-            center.z = (_minPosition.y + _maxPosition.y) / _halfCoefficient;
-
-            DrawRectangle(center, _maxPosition.x - _minPosition.x, _maxPosition.y - _minPosition.y);
         }
     }
 
@@ -83,22 +76,24 @@ public class SpawnedZone : MonoBehaviour
 
     private void DrawRectangle(Vector3 center, float sideLengthX, float sideLengthZ)
     {
+        List<Vector3> points = new List<Vector3>();
+        
         float halfSideLengthX = sideLengthX / _halfCoefficient;
         float halfSideLengthZ = sideLengthZ / _halfCoefficient;
 
-        Vector3 pointA = new Vector3(center.x - halfSideLengthX, center.y, center.z - halfSideLengthZ);
-        Vector3 pointB = new Vector3(center.x - halfSideLengthX, center.y, center.z + halfSideLengthZ);
-        Vector3 pointC = new Vector3(center.x + halfSideLengthX, center.y, center.z + halfSideLengthZ);
-        Vector3 pointD = new Vector3(center.x + halfSideLengthX, center.y, center.z - halfSideLengthZ);
+        points.Add(new Vector3(center.x - halfSideLengthX, center.y, center.z - halfSideLengthZ));
+        points.Add(new Vector3(center.x - halfSideLengthX, center.y, center.z + halfSideLengthZ));
+        points.Add(new Vector3(center.x + halfSideLengthX, center.y, center.z + halfSideLengthZ));
+        points.Add(new Vector3(center.x + halfSideLengthX, center.y, center.z - halfSideLengthZ));
 
-        DrawByPoints(pointA, pointB, pointC, pointD);
+        DrawByPoints(points);
     }
 
-    private void DrawByPoints(Vector3 pointA, Vector3 pointB, Vector3 pointC, Vector3 pointD)
+    private void DrawByPoints(List<Vector3> points)
     {
-        Debug.DrawLine(pointA, pointB, _colorOFLine);
-        Debug.DrawLine(pointB, pointC, _colorOFLine);
-        Debug.DrawLine(pointC, pointD, _colorOFLine);
-        Debug.DrawLine(pointD, pointA, _colorOFLine);
+        for (int i = 0; i < points.Count - 1; i++)
+            Debug.DrawLine(points[i], points[i + 1], _colorOFLine);
+
+        Debug.DrawLine(points[points.Count - 1], points[0], _colorOFLine);
     }
 }

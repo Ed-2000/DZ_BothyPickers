@@ -40,6 +40,9 @@ public class ResourceSpawner : MonoBehaviour
 
     private void ActionOnGet(Resource poolObject)
     {
+        if (poolObject.TryGetComponent(out Rigidbody rigidbody))
+            rigidbody.isKinematic = false;
+
         poolObject.gameObject.SetActive(true);
     }
 

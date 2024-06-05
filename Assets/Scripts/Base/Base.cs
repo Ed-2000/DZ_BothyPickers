@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(BaseScanner))] 
+[RequireComponent(typeof(BaseResourceStorage))] 
+[RequireComponent(typeof(BaseUI))] 
 public class Base : MonoBehaviour
 {
     [SerializeField] private ResourcesSpawnerController _resourcesSpawnerController;
@@ -10,6 +13,7 @@ public class Base : MonoBehaviour
 
     private BaseScanner _baseScanner;
     private BaseResourceStorage _resourceStorage;
+    private BaseUI _userInterface;
     private List<Resource> _reservedResources
 ;
 
@@ -17,6 +21,7 @@ public class Base : MonoBehaviour
     {
         _baseScanner = GetComponent<BaseScanner>();
         _resourceStorage = GetComponent<BaseResourceStorage>();
+        _userInterface = GetComponent<BaseUI>();
         _reservedResources = new List<Resource>();
 
         foreach (var bot in _freeBots)
@@ -54,12 +59,13 @@ public class Base : MonoBehaviour
 
     private void ResourceHandler(Resource resource)
     {
-        //_resourceStorage.AddResource(resource);
+        _resourceStorage.AddResource(resource);
+        _userInterface.DrawResources(_resourceStorage.GetResources());
 
         if (_reservedResources.Contains(resource))
             _reservedResources.Remove(resource);
 
-        _resourcesSpawnerController.Release(resource);
+        _resourcesSpawnerController.AcceptResource(resource);
     }
 
     private void SendBotToPicking()
