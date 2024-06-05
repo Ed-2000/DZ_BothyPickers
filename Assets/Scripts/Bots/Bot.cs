@@ -7,6 +7,7 @@ public class Bot : MonoBehaviour
 
     private Base _base;
     private BotMovement _movement;
+    private Resource _discoveredResource;
 
     private void Awake()
     {
@@ -31,8 +32,14 @@ public class Bot : MonoBehaviour
         Transform resourceTransform = resource.transform;
         resourceTransform.SetParent(this.transform);
         resourceTransform.position = _pointForTransportingResources.position;
+        _discoveredResource = resource;
 
         _movement.SetTarget(_base.transform);
+    }
+
+    public Resource GetDiscoveredResource()
+    {
+        return _discoveredResource;
     }
 
     public void SetTargetResource(Resource targetResource)

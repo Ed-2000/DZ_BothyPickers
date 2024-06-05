@@ -8,6 +8,7 @@ public class BotMovement : MonoBehaviour
 
     private void Awake()
     {
+        _target = transform;
         _navMeshAgent = GetComponent<NavMeshAgent>();
     }
 

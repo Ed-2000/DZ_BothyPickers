@@ -2599,6 +2599,10 @@ PrefabInstance:
       value: Bot (1)
       objectReference: {fileID: 0}
     - target: {fileID: 2625045482733571425, guid: 2b281072586e8134ba31fe824d03028c, type: 3}
+      propertyPath: m_AngularSpeed
+      value: 240
+      objectReference: {fileID: 0}
+    - target: {fileID: 2625045482733571425, guid: 2b281072586e8134ba31fe824d03028c, type: 3}
       propertyPath: avoidancePriority
       value: 25
       objectReference: {fileID: 0}

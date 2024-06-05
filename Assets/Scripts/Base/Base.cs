@@ -30,14 +30,12 @@ public class Base : MonoBehaviour
 
     private void OnEnable()
     {
-        _triggerZone.BotIsBack += AddToFreeBots;
-        _triggerZone.ResourceDiscovered += ResourceHandler;
+        _triggerZone.BotIsBack += BotCameBackHandler;
     }
 
     private void OnDisable()
     {
-        _triggerZone.BotIsBack -= AddToFreeBots;
-        _triggerZone.ResourceDiscovered -= ResourceHandler;
+        _triggerZone.BotIsBack -= BotCameBackHandler;
     }
 
     private void Update()
@@ -48,24 +46,22 @@ public class Base : MonoBehaviour
         SendBotToPicking();
     }
 
-    private void AddToFreeBots(Bot bot)
+    private void BotCameBackHandler(Bot bot)
     {
         if (bot != null && _freeBots.Contains(bot) == false)
         {
             _freeBots.Add(bot);
             _busyBots.Remove(bot);
+
+            Resource resource = bot.GetDiscoveredResource();
+            _resourceStorage.AddResource(resource);
+            _userInterface.DrawResources(_resourceStorage.GetResources());
+
+            if (_reservedResources.Contains(resource))
+                _reservedResources.Remove(resource);
+
+            _resourcesSpawnerController.AcceptResource(resource);
         }
-    }
-
-    private void ResourceHandler(Resource resource)
-    {
-        _resourceStorage.AddResource(resource);
-        _userInterface.DrawResources(_resourceStorage.GetResources());
-
-        if (_reservedResources.Contains(resource))
-            _reservedResources.Remove(resource);
-
-        _resourcesSpawnerController.AcceptResource(resource);
     }
 
     private void SendBotToPicking()
