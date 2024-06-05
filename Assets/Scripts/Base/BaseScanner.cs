@@ -3,13 +3,15 @@ using UnityEngine;
 
 public class BaseScanner : MonoBehaviour
 {
+    [SerializeField] private bool _isDrawing;
     [SerializeField] private float _scanningRadius;
     [SerializeField] private LayerMask _scannLayerMask;
-    [SerializeField][Range(6, 100)] private int _countOfCirclePoints;
+    [SerializeField] [Range(6, 100)] private int _countOfCirclePoints;
 
     private void OnDrawGizmos()
     {
-        DrawScanZone(_countOfCirclePoints, Color.blue);
+        if (_isDrawing)
+            DrawScanZone(_countOfCirclePoints, Color.blue);
     }
 
     public Resource GetRandomResource()

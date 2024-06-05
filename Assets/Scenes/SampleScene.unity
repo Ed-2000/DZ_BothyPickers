@@ -171,6 +171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e967bd8476ce1784ca41b2ba77739da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isDrawing: 0
   _scanningRadius: 13.5
   _scannLayerMask:
     serializedVersion: 2
@@ -188,6 +189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fb4f71ecc3c1474f95e3d1158ef9742, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _resourcesSpawnerController: {fileID: 194176301}
   _triggerZone: {fileID: 1892706954}
   _freeBots:
   - {fileID: 1547100770}
@@ -225,7 +227,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1112328770}
   - {fileID: 938052616}
   - {fileID: 1299972640}
   - {fileID: 2144624286}
@@ -244,6 +245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76f47d5ec1fba8b4cb77a57b67d8d7bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isDrawing: 0
   _minPosition: {x: -9.5, y: -9.5}
   _maxPosition: {x: 9.5, y: 9.5}
   _yPosition: 5
@@ -268,7 +270,7 @@ MonoBehaviour:
   - {fileID: 1956834410}
   _spawnedZone: {fileID: 194176297}
   _repeatRate: 5
-  _maxCountOfSpawnedObjects: 15
+  _targetCapacity: 4
 --- !u!1 &303093296
 GameObject:
   m_ObjectHideFlags: 0
@@ -1045,9 +1047,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60885a0fd41380e4ab7f3de5e2c8e1b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnedObject: {fileID: 219429584285070693, guid: 43737220345c81f4383d8a44932cae51, type: 3}
-  _parent: {fileID: 1112328770}
-  _defaultCapacity: 4
+  _resourcePrefab: {fileID: 219429584285070693, guid: 43737220345c81f4383d8a44932cae51, type: 3}
+  _defaultCapacity: 1
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1140,37 +1141,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!1 &1112328769
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1112328770}
-  m_Layer: 0
-  m_Name: SpawnedObjects
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
---- !u!4 &1112328770
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1112328769}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 194176295}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1129846336
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1586,9 +1556,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60885a0fd41380e4ab7f3de5e2c8e1b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnedObject: {fileID: 8115415265809735064, guid: 7d57ad7096d19a641b66a859e584533c, type: 3}
-  _parent: {fileID: 1112328770}
-  _defaultCapacity: 4
+  _resourcePrefab: {fileID: 8115415265809735064, guid: 7d57ad7096d19a641b66a859e584533c, type: 3}
+  _defaultCapacity: 1
 --- !u!1 &1306109720
 GameObject:
   m_ObjectHideFlags: 0
@@ -2077,9 +2046,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60885a0fd41380e4ab7f3de5e2c8e1b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnedObject: {fileID: 7413770940193352244, guid: f1259f9d143ad534fb9fb6a5cab3425a, type: 3}
-  _parent: {fileID: 1112328770}
-  _defaultCapacity: 4
+  _resourcePrefab: {fileID: 7413770940193352244, guid: f1259f9d143ad534fb9fb6a5cab3425a, type: 3}
+  _defaultCapacity: 1
 --- !u!1 &2144624285
 GameObject:
   m_ObjectHideFlags: 0
@@ -2124,9 +2092,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60885a0fd41380e4ab7f3de5e2c8e1b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnedObject: {fileID: -2445430135177103602, guid: b7107e7dea918ca4b80209a930007b2e, type: 3}
-  _parent: {fileID: 1112328770}
-  _defaultCapacity: 4
+  _resourcePrefab: {fileID: -2445430135177103602, guid: b7107e7dea918ca4b80209a930007b2e, type: 3}
+  _defaultCapacity: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

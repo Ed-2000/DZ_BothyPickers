@@ -6,20 +6,31 @@ public class ResourcesSpawnerController : MonoBehaviour
     [SerializeField] private ResourceSpawner[] _resourcesSpawners;
     [SerializeField] private SpawnedZone _spawnedZone;
     [SerializeField] private float _repeatRate;
-    [SerializeField] private int _maxCountOfSpawnedObjects;
+    [SerializeField] private int _targetCapacity;
+
+    private bool _isSpawning = true;
 
     private void OnValidate()
     {
-        if (_maxCountOfSpawnedObjects > _spawnedZone.MaxCountOfSpawnedObjects)
-            _maxCountOfSpawnedObjects = _spawnedZone.MaxCountOfSpawnedObjects;
+        if (_targetCapacity > _spawnedZone.MaxCountOfSpawnedObjects)
+            _targetCapacity = _spawnedZone.MaxCountOfSpawnedObjects;
     }
 
     private void Start()
     {
-        for (int i = 0; i < _maxCountOfSpawnedObjects; i++)
+        for (int i = 0; i < _targetCapacity; i++)
             RandomSpawn();
 
         StartCoroutine(Spawn());
+    }
+
+    public void Release(Resource resource)
+    {
+        for (int i = 0; i < _resourcesSpawners.Length; i++)
+        {
+            if (_resourcesSpawners[i].ResourcePrefab.GetType() == resource.GetType())
+                _resourcesSpawners[i].Release(resource);
+        }
     }
 
     private void RandomSpawn()
@@ -38,21 +49,21 @@ public class ResourcesSpawnerController : MonoBehaviour
     {
         var wait = new WaitForSeconds(_repeatRate);
 
-        while (true)
+        while (_isSpawning)
         {
-            if (GetAllCountsActive() < _maxCountOfSpawnedObjects)
+            if (GetAllCountsActiveResources() < _targetCapacity)
                 RandomSpawn();
 
             yield return wait;
         }
     }
 
-    private int GetAllCountsActive()
+    private int GetAllCountsActiveResources()
     {
         int allCountsActive = 0;
 
-        foreach (var _resource in _resourcesSpawners)
-            allCountsActive += _resource.GetCountActive();
+        foreach (ResourceSpawner spawner in _resourcesSpawners)
+            allCountsActive += spawner.GetCountActive();
 
         return allCountsActive;
     }

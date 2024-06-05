@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Base : MonoBehaviour
 {
+    [SerializeField] private ResourcesSpawnerController _resourcesSpawnerController;
     [SerializeField] private TriggerZone _triggerZone;
     [SerializeField] private List<Bot> _freeBots;
     [SerializeField] private List<Bot> _busyBots;
@@ -22,11 +23,13 @@ public class Base : MonoBehaviour
     private void OnEnable()
     {
         _triggerZone.BotIsBack += AddToFreeBots;
+        _triggerZone.ResourceDiscovered += ResourceHandler;
     }
 
     private void OnDisable()
     {
         _triggerZone.BotIsBack -= AddToFreeBots;
+        _triggerZone.ResourceDiscovered -= ResourceHandler;
     }
 
     private void Update()
@@ -34,7 +37,6 @@ public class Base : MonoBehaviour
         if (_freeBots.Count <= 0)
             return;
 
-        print(_freeBots.Count);
         SendBotToPicking();
     }
 
@@ -45,6 +47,11 @@ public class Base : MonoBehaviour
             _freeBots.Add(bot);
             _busyBots.Remove(bot);
         }
+    }
+
+    private void ResourceHandler(Resource resource)
+    {
+        _resourcesSpawnerController.Release(resource);
     }
 
     private void SendBotToPicking()

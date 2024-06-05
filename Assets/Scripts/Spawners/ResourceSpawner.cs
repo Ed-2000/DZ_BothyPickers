@@ -3,14 +3,18 @@ using UnityEngine.Pool;
 
 public class ResourceSpawner : MonoBehaviour
 {
-    [SerializeField] private Resource _spawnedObject;
-    [SerializeField] private Transform _parent;
+    [SerializeField] private Resource _resourcePrefab;
     [SerializeField] private int _defaultCapacity = 4;
 
     private ObjectPool<Resource> _pool;
+    private Transform _parent;
+
+    public Resource ResourcePrefab { get => _resourcePrefab; private set => _resourcePrefab = value; }
 
     private void Awake()
     {
+        _parent = this.transform;
+
         InitPool();
     }
 
@@ -28,7 +32,7 @@ public class ResourceSpawner : MonoBehaviour
 
     private Resource Create()
     {
-        Resource poolObject = Instantiate(_spawnedObject);
+        Resource poolObject = Instantiate(ResourcePrefab);
         poolObject.transform.SetParent(_parent);
 
         return poolObject;
@@ -42,7 +46,10 @@ public class ResourceSpawner : MonoBehaviour
     private void ActionOnRelease(Resource poolObject)
     {
         if (poolObject != null)
+        {
+            poolObject.transform.SetParent(_parent);
             poolObject.gameObject.SetActive(false);
+        }
     }
 
     private void ActionOnDestroy(Resource poolObject)
