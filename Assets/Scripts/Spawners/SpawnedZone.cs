@@ -29,6 +29,24 @@ public class SpawnedZone : MonoBehaviour
         CalculateSpawnPositions();
     }
 
+    private void OnDrawGizmos()
+    {
+        if (_isDrawing)
+        {
+            for (int i = 0; i < _freeSpawnPositions.Count; i++)
+                DrawRectangle(_freeSpawnPositions[i], _spawnStep, _spawnStep);
+        }
+    }
+
+    public Vector3 GetPosition()
+    {
+        Vector3 randomPosition = _freeSpawnPositions[UnityEngine.Random.Range(0, _freeSpawnPositions.Count)];
+        _freeSpawnPositions.Remove(randomPosition);
+        _occupiedSpawnPositions.Add(randomPosition);
+
+        return randomPosition;
+    }
+
     private void CalculateSpawnPositions()
     {
         _freeSpawnPositions = new List<Vector3>();
@@ -54,24 +72,6 @@ public class SpawnedZone : MonoBehaviour
         }
 
         MaxCountOfSpawnedObjects = _freeSpawnPositions.Count;
-    }
-
-    private void OnDrawGizmos()
-    {
-        if (_isDrawing)
-        {
-            for (int i = 0; i < _freeSpawnPositions.Count; i++)
-                DrawRectangle(_freeSpawnPositions[i], _spawnStep, _spawnStep);
-        }
-    }
-
-    public Vector3 GetPosition()
-    {
-        Vector3 randomPosition = _freeSpawnPositions[UnityEngine.Random.Range(0, _freeSpawnPositions.Count)];
-        _freeSpawnPositions.Remove(randomPosition);
-        _occupiedSpawnPositions.Add(randomPosition);
-
-        return randomPosition;
     }
 
     private void DrawRectangle(Vector3 center, float sideLengthX, float sideLengthZ)

@@ -1,15 +1,24 @@
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(NavMeshAgent))]
 public class BotMovement : MonoBehaviour
 {
     private NavMeshAgent _navMeshAgent;
+    private NavMeshPath _navMeshPath;
     private Transform _target;
+    private Vector3 _oldTargetPosition;
+
+    public event Action LostMyGoal;
 
     private void Awake()
     {
-        _target = transform;
         _navMeshAgent = GetComponent<NavMeshAgent>();
+        _navMeshPath = new NavMeshPath();
+
+        _oldTargetPosition = new Vector3();
+        _target = transform;
     }
 
     private void Update()
@@ -24,6 +33,19 @@ public class BotMovement : MonoBehaviour
 
     private void Move()
     {
-        _navMeshAgent.SetDestination(_target.position);
+        Vector3 targetPosition = _target.position;
+        
+        //if (!_navMeshAgent.CalculatePath(targetPosition, _navMeshPath))
+        //{
+        //    LostMyGoal?.Invoke();
+        //    print("LostMyGoal" + this.transform.name);
+        //    return;
+        //}
+
+        if (targetPosition != _oldTargetPosition)
+        {
+            _navMeshAgent.SetDestination(targetPosition);
+            _oldTargetPosition = targetPosition;
+        }
     }
 }

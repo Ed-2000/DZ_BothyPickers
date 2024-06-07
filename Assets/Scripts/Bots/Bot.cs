@@ -9,6 +9,8 @@ public class Bot : MonoBehaviour
     private BotMovement _movement;
     private Resource _discoveredResource;
 
+    public Resource DiscoveredResource { get => _discoveredResource; private set => _discoveredResource = value; }
+
     private void Awake()
     {
         _movement = GetComponent<BotMovement>();
@@ -17,11 +19,25 @@ public class Bot : MonoBehaviour
     private void OnEnable()
     {
         _resourcesPicker.ResourceDiscovered += ResourceDiscoveredHandler;
+        _movement.LostMyGoal += SummonBotToBase;
     }
 
     private void OnDisable()
     {
         _resourcesPicker.ResourceDiscovered -= ResourceDiscoveredHandler;
+        _movement.LostMyGoal -= SummonBotToBase;
+    }
+ 
+    public void Init(Base baseObject)
+    {
+        _base = baseObject;
+    }   
+    
+    public void SetTargetResource(Resource targetResource)
+    {
+        DiscoveredResource = null;
+        _movement.SetTarget(targetResource.transform);
+        _resourcesPicker.SetTarget(targetResource);
     }
 
     private void ResourceDiscoveredHandler(Resource resource)
@@ -32,24 +48,13 @@ public class Bot : MonoBehaviour
         Transform resourceTransform = resource.transform;
         resourceTransform.SetParent(this.transform);
         resourceTransform.position = _pointForTransportingResources.position;
-        _discoveredResource = resource;
+        DiscoveredResource = resource;
 
+        SummonBotToBase();
+    }
+
+    private void SummonBotToBase()
+    {
         _movement.SetTarget(_base.transform);
-    }
-
-    public Resource GetDiscoveredResource()
-    {
-        return _discoveredResource;
-    }
-
-    public void SetTargetResource(Resource targetResource)
-    {
-        _movement.SetTarget(targetResource.transform);
-        _resourcesPicker.SetTarget(targetResource);
-    }
-
-    public void Init(Base baseObject)
-    {
-        _base = baseObject;
     }
 }

@@ -32,7 +32,8 @@ public class BaseScanner : MonoBehaviour
     private void DrawScanZone(int pointsCount, Color color)
     {
         List<Vector3> circlePoints = new List<Vector3>();
-        float angleStep = 360.0f / pointsCount * Mathf.Deg2Rad;
+        float degreesInCircle = 360.0f;
+        float angleStep = degreesInCircle / pointsCount * Mathf.Deg2Rad;
         Vector3 center = transform.position;
 
         for (int i = 0; i < pointsCount; i++)

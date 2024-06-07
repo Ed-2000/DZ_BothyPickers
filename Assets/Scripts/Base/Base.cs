@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(BaseScanner))] 
-[RequireComponent(typeof(BaseResourceStorage))] 
-[RequireComponent(typeof(BaseUI))] 
+[RequireComponent(typeof(BaseScanner))]
+[RequireComponent(typeof(BaseResourceStorage))]
+[RequireComponent(typeof(BaseUI))]
 public class Base : MonoBehaviour
 {
-    [SerializeField] private ResourcesSpawnerController _resourcesSpawnerController;
+    [SerializeField] private ResourcesSpawner _resourcesSpawner;
     [SerializeField] private TriggerZone _triggerZone;
     [SerializeField] private List<Bot> _freeBots;
     [SerializeField] private List<Bot> _busyBots;
@@ -14,8 +14,7 @@ public class Base : MonoBehaviour
     private BaseScanner _baseScanner;
     private BaseResourceStorage _resourceStorage;
     private BaseUI _userInterface;
-    private List<Resource> _reservedResources
-;
+    private List<Resource> _reservedResources;
 
     private void Awake()
     {
@@ -40,7 +39,7 @@ public class Base : MonoBehaviour
 
     private void Update()
     {
-        if (_freeBots.Count <= 0)
+        if (_freeBots.Count == 0)
             return;
 
         SendBotToPicking();
@@ -48,30 +47,34 @@ public class Base : MonoBehaviour
 
     private void BotCameBackHandler(Bot bot)
     {
-        if (bot != null && _freeBots.Contains(bot) == false)
+        if (bot && _freeBots.Contains(bot) == false && bot.DiscoveredResource)
         {
             _freeBots.Add(bot);
             _busyBots.Remove(bot);
 
-            Resource resource = bot.GetDiscoveredResource();
+            Resource resource = bot.DiscoveredResource;
             _resourceStorage.AddResource(resource);
-            _userInterface.DrawResources(_resourceStorage.GetResources());
+            _userInterface.DrawResources(_resourceStorage.GetResourcesCount());
 
             if (_reservedResources.Contains(resource))
                 _reservedResources.Remove(resource);
 
-            _resourcesSpawnerController.AcceptResource(resource);
+            _resourcesSpawner.Release(resource);
         }
     }
 
     private void SendBotToPicking()
     {
         Resource resource = GetRandomResource();
-        _reservedResources.Add(resource);
 
-        _freeBots[0].SetTargetResource(resource);
-        _busyBots.Add(_freeBots[0]);
-        _freeBots.RemoveAt(0);
+        if (resource)
+        {
+            _reservedResources.Add(resource);
+
+            _freeBots[0].SetTargetResource(resource);
+            _busyBots.Add(_freeBots[0]);
+            _freeBots.RemoveAt(0);
+        }
     }
 
     private Resource GetRandomResource()

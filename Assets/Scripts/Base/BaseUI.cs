@@ -7,8 +7,8 @@ public class BaseUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _resourcesName;
     [SerializeField] private TextMeshProUGUI _resourcesCount;
 
-    public void DrawResources(List<Resource> resources)
+    public void DrawResources(int resourcesCount)
     {
-        _resourcesCount.text = (resources.Count).ToString();
+        _resourcesCount.text = (resourcesCount).ToString();
     }
 }

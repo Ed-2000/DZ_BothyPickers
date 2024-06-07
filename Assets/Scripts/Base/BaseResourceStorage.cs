@@ -10,13 +10,8 @@ public class BaseResourceStorage : MonoBehaviour
         _resources.Add(resource);
     }
 
-    public List<Resource> GetResources()
+    public int GetResourcesCount()
     {
-        List<Resource> resources = new List<Resource>();
-
-        for (int i = 0; i < _resources.Count; i++)
-            resources.Add(_resources[i]);
-
-        return resources;
+        return _resources.Count;
     }
 }
