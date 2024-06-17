@@ -32,7 +32,7 @@ public class ResourcesSpawner : MonoBehaviour
         _pool = new ObjectPool<Resource>
             (
             createFunc: () => CreateAction(),
-            actionOnGet: (obj) => GetAction(obj),
+            actionOnGet: (obj) => OnGetAction(obj),
             actionOnRelease: (obj) => ReleaseAction(obj),
             actionOnDestroy: (obj) => DestroyAction(obj),
             defaultCapacity: DefaultCapacity
@@ -45,11 +45,6 @@ public class ResourcesSpawner : MonoBehaviour
             RandomSpawn();
 
         StartCoroutine(Spawn());
-    }
-
-    public int GetCountActiveResources()
-    {
-        return _pool.CountActive;
     }
 
     public Resource Get()
@@ -70,7 +65,7 @@ public class ResourcesSpawner : MonoBehaviour
         return poolObject;
     }
 
-    private void GetAction(Resource resource)
+    private void OnGetAction(Resource resource)
     {
         if (resource.TryGetComponent(out Rigidbody rigidbody))
             rigidbody.isKinematic = false;

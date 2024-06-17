@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Bot : MonoBehaviour
@@ -5,9 +6,11 @@ public class Bot : MonoBehaviour
     [SerializeField] private BotResourcesPicker _resourcesPicker;
     [SerializeField] private Transform _pointForTransportingResources;
 
-    private Base _base;
+    private BotHangar _hangar;
     private BotMovement _movement;
     private Resource _discoveredResource;
+
+    public event Action<Bot> ArrivedAtSpecifiedPosition;
 
     public Resource DiscoveredResource { get => _discoveredResource; private set => _discoveredResource = value; }
 
@@ -19,25 +22,32 @@ public class Bot : MonoBehaviour
     private void OnEnable()
     {
         _resourcesPicker.ResourceDiscovered += ResourceDiscoveredHandler;
-        _movement.LostMyGoal += SummonBotToBase;
+        _movement.ArrivedAtSpecifiedPosition += ArrivedAtSpecifiedPositionHandler;
     }
 
     private void OnDisable()
     {
         _resourcesPicker.ResourceDiscovered -= ResourceDiscoveredHandler;
-        _movement.LostMyGoal -= SummonBotToBase;
+        _movement.ArrivedAtSpecifiedPosition -= ArrivedAtSpecifiedPositionHandler;
     }
- 
-    public void Init(Base baseObject)
+
+    public void Init(BotHangar hangar, Transform parent)
     {
-        _base = baseObject;
-    }   
-    
+        _hangar = hangar;
+        transform.position = _hangar.transform.position;
+        transform.SetParent(parent);
+    }
+
     public void SetTargetResource(Resource targetResource)
     {
         DiscoveredResource = null;
         _movement.SetTarget(targetResource.transform);
         _resourcesPicker.SetTarget(targetResource);
+    }
+
+    public void SendToBuildNewBase(Transform transform)
+    {
+        _movement.SetTarget(transform);
     }
 
     private void ResourceDiscoveredHandler(Resource resource)
@@ -50,11 +60,16 @@ public class Bot : MonoBehaviour
         resourceTransform.position = _pointForTransportingResources.position;
         DiscoveredResource = resource;
 
-        SummonBotToBase();
+        SummonBotToHangar();
     }
 
-    private void SummonBotToBase()
+    private void ArrivedAtSpecifiedPositionHandler()
     {
-        _movement.SetTarget(_base.transform);
+        ArrivedAtSpecifiedPosition?.Invoke(this.GetComponent<Bot>());
+    }
+
+    private void SummonBotToHangar()
+    {
+        _movement.SetTarget(_hangar.transform);
     }
 }

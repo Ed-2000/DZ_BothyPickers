@@ -6,46 +6,40 @@ using UnityEngine.AI;
 public class BotMovement : MonoBehaviour
 {
     private NavMeshAgent _navMeshAgent;
-    private NavMeshPath _navMeshPath;
     private Transform _target;
-    private Vector3 _oldTargetPosition;
+    private Vector3 _targetPosition;
+    private float _distanceToCheck = 1.0f;
 
-    public event Action LostMyGoal;
+    public event Action ArrivedAtSpecifiedPosition;
 
     private void Awake()
     {
         _navMeshAgent = GetComponent<NavMeshAgent>();
-        _navMeshPath = new NavMeshPath();
 
-        _oldTargetPosition = new Vector3();
+        _targetPosition = new Vector3();
         _target = transform;
     }
 
     private void Update()
     {
-        Move();
+        if (Vector3.SqrMagnitude(transform.position - _targetPosition) <= _distanceToCheck)
+        {
+            ArrivedAtSpecifiedPosition?.Invoke();
+            MoveTo(_target.position);
+        }
     }
 
     public void SetTarget(Transform target)
     {
         _target = target;
+        _targetPosition = target.position;
+
+        MoveTo(_targetPosition);
     }
 
-    private void Move()
+    private void MoveTo(Vector3 targetPosition)
     {
-        Vector3 targetPosition = _target.position;
-        
-        //if (!_navMeshAgent.CalculatePath(targetPosition, _navMeshPath))
-        //{
-        //    LostMyGoal?.Invoke();
-        //    print("LostMyGoal" + this.transform.name);
-        //    return;
-        //}
-
-        if (targetPosition != _oldTargetPosition)
-        {
-            _navMeshAgent.SetDestination(targetPosition);
-            _oldTargetPosition = targetPosition;
-        }
+        _navMeshAgent.SetDestination(targetPosition);
+        _targetPosition = targetPosition;
     }
 }
