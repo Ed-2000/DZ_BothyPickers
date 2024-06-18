@@ -29,6 +29,7 @@ public class Base : MonoBehaviour
     private List<Resource> _reservedResources;
     private Vector3 _newBasePosition;
     private bool _isMarkerSet = false;
+    private Transform _newBaseTransform;
 
     private void Awake()
     {
@@ -41,6 +42,10 @@ public class Base : MonoBehaviour
 
         foreach (var bot in _freeBots)
             bot.Init(GetFreeBotHangar(), _botCreator.BotParrent);
+
+        GameObject tempGameObject = new GameObject();
+        _newBaseTransform = tempGameObject.transform;
+        tempGameObject.SetActive(false);
     }
 
     private void OnEnable()
@@ -94,12 +99,10 @@ public class Base : MonoBehaviour
                     _isMarkerSet = false;
                     _resourceStorage.TakeResources(_countOfResourcesToCreateBase);
 
-                    GameObject tempGameObject = new GameObject();
-                    tempGameObject.transform.position = _newBasePosition;
+                    _newBaseTransform.position = _newBasePosition;
                     _freeBots.Remove(bot);
                     bot.ArrivedAtSpecifiedPosition += CreateNewBase;
-                    bot.SendToBuildNewBase(tempGameObject.transform);
-                    //Destroy(tempGameObject);
+                    bot.SendToBuildNewBase(_newBaseTransform);
                 }
             }
             else if (_freeBots.Count + _busyBots.Count < _maxCountOfBots && _freeBotHangars.Count != 0 && _resourceStorage.ResouresCount >= _countOfResourcesToCreateBot)
