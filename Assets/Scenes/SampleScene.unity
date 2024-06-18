@@ -351,7 +351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76f47d5ec1fba8b4cb77a57b67d8d7bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isDrawing: 1
+  _isDrawing: 0
   _minPosition: {x: -25.5, y: -14}
   _maxPosition: {x: 25.5, y: 14}
   _yPosition: 5

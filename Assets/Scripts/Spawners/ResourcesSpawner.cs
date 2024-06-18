@@ -31,10 +31,10 @@ public class ResourcesSpawner : MonoBehaviour
 
         _pool = new ObjectPool<Resource>
             (
-            createFunc: () => CreateAction(),
-            actionOnGet: (obj) => OnGetAction(obj),
-            actionOnRelease: (obj) => ReleaseAction(obj),
-            actionOnDestroy: (obj) => DestroyAction(obj),
+            createFunc: () => CreateResource(),
+            actionOnGet: (obj) => GetResource(obj),
+            actionOnRelease: (obj) => ReleaseResource(obj),
+            actionOnDestroy: (obj) => DestroyResource(obj),
             defaultCapacity: DefaultCapacity
             );
     }
@@ -57,12 +57,12 @@ public class ResourcesSpawner : MonoBehaviour
         _pool.Release(resource);
     }
 
-    public void CalculateSpawnPositions()
+    public void RecalculateSpawnPositions()
     {
         _spawnedZone.CalculateSpawnPositions();
     }
 
-    private Resource CreateAction()
+    private Resource CreateResource()
     {
         Resource poolObject = Instantiate(ResourcePrefab);
         poolObject.transform.SetParent(_parent);
@@ -70,7 +70,7 @@ public class ResourcesSpawner : MonoBehaviour
         return poolObject;
     }
 
-    private void OnGetAction(Resource resource)
+    private void GetResource(Resource resource)
     {
         if (resource.TryGetComponent(out Rigidbody rigidbody))
             rigidbody.isKinematic = false;
@@ -78,7 +78,7 @@ public class ResourcesSpawner : MonoBehaviour
         resource.gameObject.SetActive(true);
     }
 
-    private void ReleaseAction(Resource resource)
+    private void ReleaseResource(Resource resource)
     {
         if (resource != null)
         {
@@ -87,7 +87,7 @@ public class ResourcesSpawner : MonoBehaviour
         }
     }
 
-    private void DestroyAction(Resource resource)
+    private void DestroyResource(Resource resource)
     {
         Destroy(resource.gameObject);
     }
