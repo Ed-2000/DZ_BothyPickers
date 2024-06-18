@@ -47,7 +47,7 @@ public class SpawnedZone : MonoBehaviour
         return randomPosition;
     }
 
-    private void CalculateSpawnPositions()
+    public void CalculateSpawnPositions()
     {
         _freeSpawnPositions = new List<Vector3>();
 

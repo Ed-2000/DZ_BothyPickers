@@ -66,13 +66,15 @@ public class Base : MonoBehaviour
     public void Init(ResourcesSpawner resourcesSpawner, NavMeshSurface navMeshSurface, Bot bot, TextMeshProUGUI resourcesCountText, Camera camera)
     {
         _resourcesSpawner = resourcesSpawner;
+        _resourcesSpawner.CalculateSpawnPositions();
+
         _navMeshSurface = navMeshSurface;
+        ReloadNavMesh();
+
         _freeBots.Add(bot);
         bot.Init(GetFreeBotHangar(), _botCreator.BotParrent);
         _userInterface.Init(resourcesCountText);
         _markerSetter.Init(camera);
-
-        ReloadNavMesh();
     }
 
     private void BotCameBackHandler(Bot bot)

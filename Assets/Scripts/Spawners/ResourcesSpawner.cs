@@ -57,6 +57,11 @@ public class ResourcesSpawner : MonoBehaviour
         _pool.Release(resource);
     }
 
+    public void CalculateSpawnPositions()
+    {
+        _spawnedZone.CalculateSpawnPositions();
+    }
+
     private Resource CreateAction()
     {
         Resource poolObject = Instantiate(ResourcePrefab);
