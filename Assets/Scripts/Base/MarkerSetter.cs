@@ -4,13 +4,13 @@ using UnityEngine.EventSystems;
 
 public class MarkerSetter : MonoBehaviour, IPointerClickHandler
 {
-    [SerializeField] private Camera _camera;
     [SerializeField] private Marker _markerPrefab;
 
+    private Camera _camera;
     private Marker _marker;
     private bool _canSetMarker = false;
 
-    public Camera Camera { get => _camera;}
+    public Camera Camera { get => _camera; }
 
     public event Action<Vector3> Set;
 
@@ -22,6 +22,7 @@ public class MarkerSetter : MonoBehaviour, IPointerClickHandler
     private void Awake()
     {
         _marker = Instantiate(_markerPrefab);
+        _marker.transform.SetParent(this.transform);
         _marker.gameObject.SetActive(false);
     }
 
@@ -46,7 +47,7 @@ public class MarkerSetter : MonoBehaviour, IPointerClickHandler
         _canSetMarker = true;
         _marker.gameObject.SetActive(false);
     }
-    
+
     private void SetMarker(Vector3 position)
     {
         _canSetMarker = false;

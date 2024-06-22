@@ -5,13 +5,7 @@ public class BaseResourceStorage : MonoBehaviour
 {
     private List<Resource> _resources = new List<Resource>();
 
-    public int ResouresCount
-    {
-        get
-        {
-            return _resources.Count;
-        }
-    }
+    public int ResouresCount { get => _resources.Count; }
 
     public void AddResource(Resource resource)
     {

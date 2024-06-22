@@ -14,8 +14,8 @@ public class ResourcesSpawner : MonoBehaviour
     private Transform _parent;
 
     public Resource ResourcePrefab { get => _resourcePrefab; private set => _resourcePrefab = value; }
-    public int DefaultCapacity 
-    { 
+    public int DefaultCapacity
+    {
         get => _defaultCapacity;
 
         private set
@@ -54,7 +54,9 @@ public class ResourcesSpawner : MonoBehaviour
 
     public void Release(Resource resource)
     {
-        _pool.Release(resource);
+
+        if (resource != null)
+            _pool.Release(resource);
     }
 
     public void RecalculateSpawnPositions()
@@ -80,11 +82,8 @@ public class ResourcesSpawner : MonoBehaviour
 
     private void ReleaseResource(Resource resource)
     {
-        if (resource != null)
-        {
-            resource.transform.SetParent(_parent);
-            resource.gameObject.SetActive(false);
-        }
+        resource.transform.SetParent(_parent);
+        resource.gameObject.SetActive(false);
     }
 
     private void DestroyResource(Resource resource)

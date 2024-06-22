@@ -5,14 +5,17 @@ public class Bot : MonoBehaviour
 {
     [SerializeField] private BotResourcesPicker _resourcesPicker;
     [SerializeField] private Transform _pointForTransportingResources;
+    [SerializeField] private Transform _targetTransform;
 
     private BotHangar _hangar;
     private BotMovement _movement;
     private Resource _discoveredResource;
+    private bool _isFree = true;
 
     public event Action<Bot> ArrivedAtSpecifiedPosition;
 
     public Resource DiscoveredResource { get => _discoveredResource; private set => _discoveredResource = value; }
+    public bool IsFree { get => _isFree; private set => _isFree = value; }
 
     private void Awake()
     {
@@ -41,13 +44,15 @@ public class Bot : MonoBehaviour
     public void SetTargetResource(Resource targetResource)
     {
         DiscoveredResource = null;
-        _movement.SetTarget(targetResource.transform);
+        _targetTransform = targetResource.transform;
+        _movement.SetTarget(_targetTransform);
         _resourcesPicker.SetTarget(targetResource);
     }
 
-    public void SendToBuildNewBase(Transform transform)
+    public void SendToBuildNewBase(Vector3 position)
     {
-        _movement.SetTarget(transform);
+        _targetTransform.position = position;
+        _movement.SetTarget(_targetTransform);
     }
 
     private void ResourceDiscoveredHandler(Resource resource)
