@@ -2,38 +2,38 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class MarkerSetter : MonoBehaviour, IPointerClickHandler
+public class MarkerPlacer : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private Marker _markerPrefab;
 
     private Camera _camera;
     private Marker _marker;
-    private bool _canSetMarker = false;
+    private bool _canPlacedMarker = false;
 
     public Camera Camera { get => _camera; }
 
-    public event Action<Vector3> Set;
+    public event Action<Vector3> Placed;
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        _canSetMarker = true;
+        _canPlacedMarker = true;
     }
 
     private void Awake()
     {
         _marker = Instantiate(_markerPrefab);
-        _marker.transform.SetParent(this.transform);
+        _marker.transform.SetParent(transform);
         _marker.gameObject.SetActive(false);
     }
 
     private void Update()
     {
-        if (_canSetMarker == true && Input.GetMouseButtonDown(0))
+        if (_canPlacedMarker == true && Input.GetMouseButtonDown(0))
         {
             Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out RaycastHit hit) && hit.transform.TryGetComponent(out Ground _))
-                SetMarker(hit.point);
+                PlacedMarker(hit.point);
         }
     }
 
@@ -44,15 +44,15 @@ public class MarkerSetter : MonoBehaviour, IPointerClickHandler
 
     public void RemoveMarker()
     {
-        _canSetMarker = true;
+        _canPlacedMarker = true;
         _marker.gameObject.SetActive(false);
     }
 
-    private void SetMarker(Vector3 position)
+    private void PlacedMarker(Vector3 position)
     {
-        _canSetMarker = false;
+        _canPlacedMarker = false;
         _marker.gameObject.SetActive(true);
         _marker.transform.position = position;
-        Set?.Invoke(position);
+        Placed?.Invoke(position);
     }
 }

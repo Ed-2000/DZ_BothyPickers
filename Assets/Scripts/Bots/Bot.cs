@@ -10,12 +10,11 @@ public class Bot : MonoBehaviour
     private BotHangar _hangar;
     private BotMovement _movement;
     private Resource _discoveredResource;
-    private bool _isFree = true;
 
     public event Action<Bot> ArrivedAtSpecifiedPosition;
 
     public Resource DiscoveredResource { get => _discoveredResource; private set => _discoveredResource = value; }
-    public bool IsFree { get => _isFree; private set => _isFree = value; }
+    public bool IsFree { get; set; } = true;
 
     private void Awake()
     {

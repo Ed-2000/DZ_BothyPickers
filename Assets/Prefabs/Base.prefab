@@ -1246,7 +1246,7 @@ GameObject:
   - component: {fileID: 5591778351200474372}
   - component: {fileID: 1772806732359943575}
   - component: {fileID: 1387553800833797517}
-  - component: {fileID: 5240284043837803727}
+  - component: {fileID: 1543425101479608342}
   m_Layer: 0
   m_Name: Base
   m_TagString: Untagged
@@ -1322,8 +1322,6 @@ MonoBehaviour:
   - {fileID: 7076785523307113602}
   - {fileID: 4495183902794687882}
   - {fileID: 1450385858517814373}
-  _freeBots: []
-  _busyBots: []
   _countOfResourcesToCreateBot: 3
   _countOfResourcesToCreateBase: 5
   _maxCountOfBots: 8
@@ -1372,7 +1370,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _botParrent: {fileID: 8791507533577394724}
   _botPrefab: {fileID: 3478360659411313905, guid: 2b281072586e8134ba31fe824d03028c, type: 3}
---- !u!114 &5240284043837803727
+--- !u!114 &1543425101479608342
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1381,7 +1379,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5327976137164436675}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e5d2f424b19b494c860fdab719d2ecb, type: 3}
+  m_Script: {fileID: 11500000, guid: 1e4dc31592ae41843b724a02da76bebd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _markerPrefab: {fileID: 2567308616315395492, guid: 00fc0db3f926b624fac3886476010005, type: 3}

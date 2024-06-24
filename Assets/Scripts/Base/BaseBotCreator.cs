@@ -7,7 +7,7 @@ public class BaseBotCreator : MonoBehaviour
 
     public Transform BotParrent { get => _botParrent; }
 
-    public Bot CreateBot()
+    public Bot Create()
     {
         Bot bot = Instantiate(_botPrefab);
         bot.transform.SetParent(_botParrent);
