@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class BotMovement : MonoBehaviour
 {
     private NavMeshAgent _navMeshAgent;
-    private Transform _target;
+    private Transform _targetTransform;
     private Vector3 _targetPosition;
     private float _distanceToCheck = 1.0f;
 
@@ -17,7 +17,7 @@ public class BotMovement : MonoBehaviour
         _navMeshAgent = GetComponent<NavMeshAgent>();
 
         _targetPosition = new Vector3();
-        _target = transform;
+        _targetTransform = transform;
     }
 
     private void Update()
@@ -25,13 +25,13 @@ public class BotMovement : MonoBehaviour
         if (Vector3.SqrMagnitude(transform.position - _targetPosition) <= _distanceToCheck)
         {
             ArrivedAtSpecifiedPosition?.Invoke();
-            MoveTo(_target.position);
+            MoveTo(_targetTransform.position);
         }
     }
 
     public void SetTarget(Transform target)
     {
-        _target = target;
+        _targetTransform = target;
         _targetPosition = target.position;
 
         MoveTo(_targetPosition);
@@ -39,6 +39,7 @@ public class BotMovement : MonoBehaviour
 
     private void MoveTo(Vector3 targetPosition)
     {
+        _navMeshAgent.enabled = true;
         _navMeshAgent.SetDestination(targetPosition);
         _targetPosition = targetPosition;
     }

@@ -54,7 +54,6 @@ public class ResourcesSpawner : MonoBehaviour
 
     public void Release(Resource resource)
     {
-
         if (resource != null)
             _pool.Release(resource);
     }

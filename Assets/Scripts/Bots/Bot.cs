@@ -14,6 +14,7 @@ public class Bot : MonoBehaviour
     public event Action<Bot> ArrivedAtSpecifiedPosition;
 
     public Resource DiscoveredResource { get => _discoveredResource; private set => _discoveredResource = value; }
+    public BotHangar Hangar { get => _hangar; private set => _hangar = value; }
     public bool IsFree { get; set; } = true;
 
     private void Awake()
@@ -36,7 +37,9 @@ public class Bot : MonoBehaviour
     public void Init(BotHangar hangar, Transform parent)
     {
         _hangar = hangar;
+        gameObject.SetActive(false);
         transform.position = _hangar.transform.position;
+        gameObject.SetActive(true);
         transform.SetParent(parent);
     }
 

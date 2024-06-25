@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using Unity.AI.Navigation;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class BaseSpawner : MonoBehaviour
 {
@@ -11,15 +9,14 @@ public class BaseSpawner : MonoBehaviour
     [SerializeField] private ResourcesSpawner _resourcesSpawner;
     [SerializeField] private ResourceAllocatore _resourceAllocatore;
     [SerializeField] private Camera _camera;
+    [SerializeField] private int _startCountBots = 3;
 
     private void Awake()
     {
         Base newBase = Spawn(_firstBasePosition);
 
-        for (int i = 0; i < 3; i++)
-        {
+        for (int i = 0; i < _startCountBots; i++)
             newBase.CreateNewBot();
-        }
     }
 
     public Base Spawn(Vector3 position)

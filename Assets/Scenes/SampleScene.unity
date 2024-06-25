@@ -581,11 +581,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _basePrefab: {fileID: 9135847048146339823, guid: 875edb24fb9f62944ad411e170433039, type: 3}
-  _firstBasePosition: {x: 5, y: 1, z: 0}
+  _firstBasePosition: {x: 15, y: 1, z: 0}
   _navMeshSurface: {fileID: 309709876}
   _resourcesSpawner: {fileID: 194176298}
   _resourceAllocatore: {fileID: 330241161}
   _camera: {fileID: 963194227}
+  _startCountBots: 3
 --- !u!114 &330241161
 MonoBehaviour:
   m_ObjectHideFlags: 0

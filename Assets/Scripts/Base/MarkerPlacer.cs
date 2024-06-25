@@ -8,7 +8,7 @@ public class MarkerPlacer : MonoBehaviour, IPointerClickHandler
 
     private Camera _camera;
     private Marker _marker;
-    private bool _canPlacedMarker = false;
+    [SerializeField] private bool _canPlacedMarker = false;
 
     public Camera Camera { get => _camera; }
 
@@ -44,7 +44,7 @@ public class MarkerPlacer : MonoBehaviour, IPointerClickHandler
 
     public void RemoveMarker()
     {
-        _canPlacedMarker = true;
+        _canPlacedMarker = false;
         _marker.gameObject.SetActive(false);
     }
 

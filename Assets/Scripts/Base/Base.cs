@@ -32,10 +32,8 @@ public class Base : MonoBehaviour
         _triggerZone.BotIsBack += HandleCameBackBot;
         _markerPlacer.Placed += HandlePlacedMarker;
 
-        print(_bots.Count);
-
         for (int i = 0; i < _bots.Count; i++)
-            SendBotToPicking();
+            SendBotsToPicking();
     }
 
     private void OnDestroy()
@@ -61,17 +59,30 @@ public class Base : MonoBehaviour
         ReloadNavMesh();
     }
 
-    public void AddBot(Bot bot)
-    {
-        bot.IsFree = true;
-        bot.Init(GetFreeBotHangar(), _botCreator.BotParrent);
-        _bots.Add(bot); 
-    }
     public void CreateNewBot()
     {
-        Bot newBot = _botCreator.Create();
-        newBot.Init(GetFreeBotHangar(), _botCreator.BotParrent);
-        AddBot(newBot);
+        Bot bot = _botCreator.Create();
+        bot.Init(GetFreeBotHangar(), _botCreator.BotParrent);
+        _bots.Add(bot);
+    }
+
+    public void SendBotsToPicking()
+    {
+        Resource resource = GetNearestResource();
+
+        if (resource)
+        {
+            _resourceAllocatore.AddToReserved(resource);
+
+            foreach (var bot in _bots)
+            {
+                if (bot.IsFree == true)
+                {
+                    bot.SetTargetResource(resource);
+                    bot.IsFree = false;
+                }
+            }
+        }
     }
 
     private void HandleCameBackBot(Bot bot)
@@ -95,14 +106,14 @@ public class Base : MonoBehaviour
                     CreateNewBot();
                 }
 
-                if (_resourceAllocatore.Contains(resource))
+                if (_resourceAllocatore.ContainsInReserved(resource))
                     _resourceAllocatore.RemoveFromReserved(resource);
 
                 _userInterface.DrawResources(_resourceStorage.ResouresCount);
                 _resourcesSpawner.Release(resource);
             }
 
-            SendBotToPicking();
+            SendBotsToPicking();
         }
     }
 
@@ -128,11 +139,15 @@ public class Base : MonoBehaviour
 
     private void CreateNewBase(Bot bot)
     {
-        bot.ArrivedAtSpecifiedPosition -= CreateNewBase;
-        _bots.Remove(bot);
-        Base newBase = _baseSpawner.Spawn(_newBasePosition);
-        newBase.AddBot(bot);
         _markerPlacer.RemoveMarker();
+        
+        bot.ArrivedAtSpecifiedPosition -= CreateNewBase;
+        Base newBase = _baseSpawner.Spawn(_newBasePosition);
+        _freeBotHangars.Add(bot.Hangar);
+        _bots.Remove(bot);
+        Destroy(bot.gameObject);
+        newBase.CreateNewBot();
+        newBase.SendBotsToPicking();
     }
 
     private BotHangar GetFreeBotHangar()
@@ -142,28 +157,6 @@ public class Base : MonoBehaviour
         _freeBotHangars.RemoveAt(0);
 
         return hangar;
-    }
-
-    private void SendBotToPicking()
-    {
-        print("SendBotToPicking");
-
-        Resource resource = GetNearestResource();
-
-        if (resource)
-        {
-            _resourceAllocatore.AddToReserved(resource);
-
-            foreach (var bot in _bots)
-            {
-                if (bot.IsFree == true)
-                {
-                    bot.SetTargetResource(resource);
-                    bot.IsFree = false;
-                    break;
-                }
-            }
-        }
     }
 
     private Resource GetNearestResource()

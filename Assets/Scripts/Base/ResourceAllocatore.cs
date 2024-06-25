@@ -31,7 +31,7 @@ public class ResourceAllocatore : MonoBehaviour
         _reservedResources.Remove(resource);
     }
 
-    public bool Contains(Resource resource)
+    public bool ContainsInReserved(Resource resource)
     {
         return _reservedResources.Contains(resource);
     }
