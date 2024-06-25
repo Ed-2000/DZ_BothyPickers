@@ -3,12 +3,9 @@ using UnityEngine;
 
 public class ResourceAllocatore : MonoBehaviour
 {
-    private List<Resource> _reservedResources;
-
-    private void Awake()
-    {
-        _reservedResources = new List<Resource>();
-    }
+    [SerializeField] private ResourcesSpawner _resourcesSpawner;
+    
+    private List<Resource> _reservedResources = new List<Resource>();
 
     public List<Resource> GetFree(List<Resource> resources)
     {
@@ -29,6 +26,7 @@ public class ResourceAllocatore : MonoBehaviour
     public void RemoveFromReserved(Resource resource)
     {
         _reservedResources.Remove(resource);
+        _resourcesSpawner.Release(resource);
     }
 
     public bool ContainsInReserved(Resource resource)

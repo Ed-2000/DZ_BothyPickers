@@ -1241,7 +1241,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5850769826698328098}
   - component: {fileID: 5864502141210297571}
-  - component: {fileID: 713300169014205570}
   - component: {fileID: 9135847048146339823}
   - component: {fileID: 5591778351200474372}
   - component: {fileID: 1772806732359943575}
@@ -1285,18 +1284,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ca8bbbfe087cf0f4a94f99d41dbfd2b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &713300169014205570
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5327976137164436675}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18642003a9d652c4d8b706a9b8fef339, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &9135847048146339823
@@ -1383,6 +1370,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _markerPrefab: {fileID: 2567308616315395492, guid: 00fc0db3f926b624fac3886476010005, type: 3}
+  _canPlacedMarker: 0
 --- !u!1 &5862726214053867148
 GameObject:
   m_ObjectHideFlags: 0

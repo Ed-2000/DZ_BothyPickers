@@ -366,7 +366,7 @@ MonoBehaviour:
   _spawnedZone: {fileID: 194176297}
   _resourcePrefab: {fileID: 973166357953035920, guid: 43737220345c81f4383d8a44932cae51, type: 3}
   _repeatRate: 1
-  _defaultCapacity: 23
+  _defaultCapacity: 40
 --- !u!1 &241752178
 GameObject:
   m_ObjectHideFlags: 0
@@ -599,6 +599,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18642003a9d652c4d8b706a9b8fef339, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _resourcesSpawner: {fileID: 194176298}
 --- !u!1 &353471562
 GameObject:
   m_ObjectHideFlags: 0

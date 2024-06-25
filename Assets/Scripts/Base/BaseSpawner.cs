@@ -23,7 +23,8 @@ public class BaseSpawner : MonoBehaviour
     {
         Base newBase = Instantiate(_basePrefab, position, Quaternion.identity);
         newBase.GetComponent<MarkerPlacer>().Init(_camera);
-        newBase.Init(this, _resourcesSpawner, _navMeshSurface, _resourceAllocatore);
+        newBase.Init(this, _navMeshSurface, _resourceAllocatore);
+        _resourcesSpawner.RecalculateSpawnPositions();
 
         return newBase;
     }
